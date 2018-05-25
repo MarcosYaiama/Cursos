@@ -1,0 +1,26 @@
+Mesmo com tudo o programa nao vai funcionar
+Precisa se fazer um ajuste fino
+
+O servidor web por seguranca nao roda no usuario root
+ele tem um usuario especifico para rodar o servico.
+
+Verifique ele usando o comando:
+
+ps aux | grep apache
+
+O usuario que aparece na aula:
+www-data
+
+Para dar permissao de acesso aos GPIO para esse user
+usamos:
+
+sudo usermod -aG gpio www-data
+
+Para verificar se ele agora faz parte do grupo com permissao de acesso 
+ao GPIO, use :
+
+id www-data
+
+Logo apos reinicialize o servidor apache:
+
+sudo service apache2 restart

@@ -1,0 +1,45 @@
+
+<html>
+  <body>
+    <h3 style="width: 20%; text-align: left; margin-left: auto; margin-right: auto;">Porta:{{ porta or "Esperando" }}</h3>
+    <h3 style="width: 20%; text-align: left; margin-left: auto; margin-right: auto;">Estado:{{ estado or "Esperando" }}</h3>
+    <h3 style="width: 20%; text-align: left; margin-left: auto; margin-right: auto;">Mensagem:{{ mensagem or "Esperando" }}</h3>
+    <form action="/" method="POST">
+      <table style="width: 20%; text-align: left; margin-left: auto; margin-right: auto;">
+        <tr>
+          <td style="text-align: center;">DEVICE 1</td>
+          <td style="text-align: center;"><button name="comando" value="7ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="7OFF">OFF</button></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">DEVICE 2</td>
+          <td style="text-align: center;"><button name="comando" value="11ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="11OFF">OFF</button></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">DEVICE 3</td>
+          <td style="text-align: center;"><button name="comando" value="12ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="12FF">OFF</button></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">DEVICE 4</td>
+          <td style="text-align: center;"><button name="comando" value="13ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="13OFF">OFF</button></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">DEVICE 5</td>
+          <td style="text-align: center;"><button name="comando" value="15ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="15OFF">OFF</button></td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">DEVICE 6</td>
+          <td style="text-align: center;"><button name="comando" value="6ON">ON</button></td>
+          <td style="text-align: center;"><button name="comando" value="6OFF">OFF</button></td>
+        </tr>
+
+        <button name="comando" value="R">RESETAR</button>
+
+      </table>
+    </form>
+  </body>
+</html>
