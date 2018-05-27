@@ -1,0 +1,72 @@
+<meta charset="UTF-8">
+
+<input/>
+<button>PEGA EU GIT hahahahCompare com o meu segredo</button>
+
+<script>
+	
+	//var segredo = Math.round(Math.random() * 10);
+	
+	function sorteia(){
+		return Math.round(Math.random() * 10);
+
+	}
+
+	function sorteiaNumeros(quantidade){
+		
+		var segredos = [];
+		var numero = 1;
+		while(numero <= quantidade){
+			var achou = false;
+			var numeroAleatorio = sorteia();
+			
+			if(numeroAleatorio != 0){
+				for(var posicao = 0; posicao < segredos.length; posicao++){
+		
+				if(numeroAleatorio == segredos[posicao]){
+					achou = true;
+					document.write(posicao);
+				}
+			}	
+			}
+
+						
+			if(achou == false){
+				segredos.push(numeroAleatorio);	
+				numero++;
+			}
+			
+		}
+		return segredos;
+	}
+
+	var segredos = sorteiaNumeros(4);
+	
+	var input = document.querySelector("input");
+	
+	console.log(segredos);
+	
+	input.focus();
+	
+	function verifica(){
+		var achou = false;
+	
+			for(var i = 0; i < segredos.length;i++){
+			if(input.value == segredos[i]){
+				alert("Você ACERTOU!");
+				achou = true;
+				break;
+			}
+		}
+
+		input.value = "";
+		input.focus();
+		if(achou == false){
+			alert("Você ERROU!");
+		}
+	}
+	
+	var button = document.querySelector("button");
+	button.onclick = verifica;
+
+</script>

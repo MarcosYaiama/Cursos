@@ -1,0 +1,47 @@
+<meta chaset="UTF-8">
+
+
+<script>
+//Inicio do script
+//Função mostra e pulaLinha() não haviam sido definidas
+function pulaLinha(){
+	document.write("<br>");
+}
+
+function mostra(frase){
+	document.write(frase);
+}
+
+
+//função para mostrar uma mensagem no corpo do HTML visível para o usuário
+function mostra(frase) {
+    document.write(frase); 
+    pulaLinha();
+ }
+
+//função para calcular o IMC dos pacientes
+function calculaImc(nome, peso, altura) {
+    var imc = peso / (altura * altura); 
+    return mostra("O imc do paciente " + nome + " é de: " + imc.toFixed(2));
+ }
+
+//Paciente 1 
+var meuNome = "Flávio"; 
+var pesoFlavio = 85;
+var alturaFlavio = 1.83;
+calculaImc(meuNome, pesoFlavio, alturaFlavio);
+
+//Paciente 2
+var nomeAmigo = "jonathan";
+var pesoAmigo = 75;
+var alturaAmigo = 1.70;
+calculaImc(nomeAmigo, pesoAmigo, alturaAmigo);
+
+//Paciente 3
+nomeAmigo = "Marilda";
+pesoAmigo = 55;
+alturaAmigo = 1.50;
+calculaImc(nomeAmigo, pesoAmigo, alturaAmigo);
+
+//Final do SCRIPT
+</script>

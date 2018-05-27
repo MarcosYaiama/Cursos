@@ -1,0 +1,23 @@
+<meta charset="UTF-8">
+<script>
+
+	var ano = 1500;
+	var anoAtual = 2017
+	var media = 28;
+
+	var anoPassado = anoAtual - ano;
+	var geracao = anoPassado/media;
+	
+	function pulaLinha(){
+		document.write("<br>");
+	}
+
+	function mostra(algo){
+		document.write(algo);
+		pulaLinha();
+	}
+
+	mostra("Do ano " + ano + " até o ano atual de " + anoAtual + " passaram-se " + anoPassado);
+	mostra("A média de novas gerações são de " + media+ " anos, portanto do ano "+ ano + " até o ano de " + anoAtual + ", temos em média " + Math.round(geracao) +" gerações diferentes!");
+
+</script>
