@@ -79,6 +79,9 @@ def autenticar():
             flash(usuario.nome + ' logou com sucesso!')
             proxima_pagina = request.form['proxima']
             return redirect(proxima_pagina)
+        else:
+            flash('Não logado, tente novamente!')
+            return redirect(url_for('login'))
     else:
         flash('Não logado, tente novamente!')
         return redirect(url_for('login'))
@@ -106,7 +109,6 @@ def autenticar_novo_usuario():
         return render_template("login.html", registro_usuario=True, titulo="Faça seu registro")
     else:
         new_user = Usuario(id, nome, senha)
-        print("{}\t{}\t{}".format(id, nome, senha))
         usuario_dao.novo_usuario(new_user)
         return redirect(url_for("users_list"))
             
