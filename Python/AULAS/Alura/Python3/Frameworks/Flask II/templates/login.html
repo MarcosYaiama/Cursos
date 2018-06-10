@@ -23,17 +23,21 @@
         {% if request.form['registro_usuario'] %}
             action="{{ url_for('autenticar_novo_usuario') }}"
         {% else %}
-            action="{{ url_for('autenticar') }}">
-        {% endif %}
+            action="{{ url_for('autenticar') }}"
+        {% endif %}>
             <input type="hidden" name="proxima" value="{{ proxima or url_for('index') }}">
-            <p><label>Nome de usuário:</label> <input class="form-control" type="text" name="usuario" required></p>
-            <p><label>Senha:</label> <input class="form-control" type="password" name="senha" required></p>
+
             
             {% if request.form['registro_usuario'] %}
-                <input type="hidden" name="registro_usuario" value="{{ request.form['registro_usuario'] }}"
+                <input type="hidden" name="registro_usuario" value="true">
+                <p><label>Nome de Identificação:</label><input class="form-control" type="text" name="id" required></p>
+                <p><label>Nome do Usuario:</label><input class="form-control" type="text" name="usuario" required></p>
+                <p><label>Senha:</label><input class="form-control" type="password" name="senha" required></p>
                 <p><label>Confirme sua senha:</label> <input class="form-control" type="password" name="senha_check" required></p>
                 <p><button class="btn btn-success" type="submit">Registrar</button></p>
             {% else %}
+                <p><label>Nome de usuário:</label><input class="form-control" type="text" name="usuario" required></p>
+                <p><label>Senha:</label><input class="form-control" type="password" name="senha" required></p>
                 <p><button class="btn btn-success" type="submit">Entrar</button></p>
          {% endif %}
         </form>

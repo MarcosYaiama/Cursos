@@ -26,6 +26,11 @@ def index():
     lista = jogo_dao.listar()
     return render_template('lista.html', titulo='Jogos', jogos=lista)
 
+@app.route("/usuarios")
+def users_list():
+    lista = usuario_dao.listar()
+    return render_template('lista_usuario.html', titulo='Usuarios', usuarios=lista)
+   
 @app.route('/novo')
 def novo():
     return protege_rota(
@@ -85,14 +90,26 @@ def logout():
     flash('Logout efetuado com sucesso!')
     return redirect(url_for('index'))
 
-@app.route('/registrar' , methods=['POST',])
+@app.route('/registrar' , methods=['POST', 'GET'])
 def registrar_usuario():
-    return render_template('login.html', titulo="Faça seu registro")    
+    registro_usuario="true"
+    return render_template('login.html', titulo="Faça seu registro",)    
 
 @app.route('/novo_usuario', methods=['POST', 'GET'])
 def autenticar_novo_usuario():
-    pass
-
+    id = str(request.form['id'])
+    nome = str(request.form['usuario'])
+    senha = str(request.form['senha'])
+    #FAZER VERIFICAÇÃO DE SENHA DEPOIS !!!!!!!!!!!!!!
+    if(usuario_dao.buscar_por_id(request.form['id'])):
+        flash("Nome de Identificação já está em uso!")
+        return render_template("login.html", registro_usuario=True, titulo="Faça seu registro")
+    else:
+        new_user = Usuario(id, nome, senha)
+        print("{}\t{}\t{}".format(id, nome, senha))
+        usuario_dao.novo_usuario(new_user)
+        return redirect(url_for("users_list"))
+            
 
 @app.route('/remover', methods=['POST', ])
 def deletar():

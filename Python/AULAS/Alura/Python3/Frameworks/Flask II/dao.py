@@ -5,6 +5,7 @@ SQL_JOGO_POR_ID = 'SELECT id, nome, categoria, console from jogo where id = %s'
 SQL_USUARIO_POR_ID = 'SELECT id, nome, senha from usuario where id = %s'
 SQL_ATUALIZA_JOGO = 'UPDATE jogo SET nome=%s, categoria=%s, console=%s where id = %s'
 SQL_BUSCA_JOGOS = 'SELECT id, nome, categoria, console from jogo'
+SQL_BUSCA_USUARIOS = 'SELECT * from usuario'
 SQL_CRIA_JOGO = 'INSERT into jogo (nome, categoria, console) values (%s, %s, %s)'
 SQL_CRIA_USUARIO = 'INSERT into usuario(id, nome, senha) values (%s, %s, %s)'
 
@@ -51,21 +52,28 @@ class UsuarioDao:
         usuario = traduz_usuario(dados) if dados else None
         return usuario
     
-    def novo_usuario(self, usuario):
-        self.__db.connection.cursor()
-        if(usuario.id):
-            self.__db.connect.commit()
-            return False
-        else:
-            cursor.execute(SQL_CRIA_USUARIO, (usuario.id, usuario.nome, usuario.senha))
-            self.__db.connect.commit()
-            return True
-            
+    def listar(self):
+        cursor = self.__db.connection.cursor()
+        cursor.execute(SQL_BUSCA_USUARIOS)
+        usuarios = traduz_user(cursor.fetchall())
+        print(usuarios)
+        return usuarios
+
+    def novo_usuario(self, n_usuario):
+        cursor = self.__db.connection.cursor()
+        cursor.execute('insert into usuario(id, nome, senha) values (%s ,%s , %s)', ("Nick", "Nicholas", "mestra"))
+        print("{}\t{}\t{}".format(len(n_usuario.id), len(n_usuario.nome), len(n_usuario.senha)))
+        self.__db.connect.commit()
+
 def traduz_jogos(jogos):
     def cria_jogo_com_tupla(tupla):
         return Jogo(tupla[1], tupla[2], tupla[3], id=tupla[0])
     return list(map(cria_jogo_com_tupla, jogos))
 
+def traduz_user(usuarios):
+    def cria_user_com_tupla(tupla):
+        return Usuario(tupla[0], tupla[1], tupla[2])
+    return list(map(cria_user_com_tupla, usuarios))
 
 def traduz_usuario(tupla):
     return Usuario(tupla[0], tupla[1], tupla[2])
