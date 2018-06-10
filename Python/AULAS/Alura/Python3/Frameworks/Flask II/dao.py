@@ -67,7 +67,7 @@ class UsuarioDao:
     def novo_usuario(self, usuario):
         cursor = self.__db.connection.cursor()
         cursor.execute(SQL_CRIA_USUARIO, (usuario.id, usuario.nome, usuario.senha))
-        #self.__db.connect.commit()
+        #self.__db.connect.commit()     #MALDITO ERRO, JAMAIS TE ESQUECEREI!
         self.__db.connection.commit()
 def traduz_jogos(jogos):
     def cria_jogo_com_tupla(tupla):
