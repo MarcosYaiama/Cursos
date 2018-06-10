@@ -22,38 +22,34 @@ class JogoDao:
             cursor.execute(SQL_CRIA_JOGO, (jogo.nome, jogo.categoria, jogo.console))
             jogo.id = cursor.lastrowid
         self.__db.connection.commit()
-        cursor.close()
         return jogo
 
     def listar(self):
         cursor = self.__db.connection.cursor()
         cursor.execute(SQL_BUSCA_JOGOS)
         jogos = traduz_jogos(cursor.fetchall())
-        cursor.close()
         return jogos
 
     def busca_por_id(self, id):
         cursor = self.__db.connection.cursor()
         cursor.execute(SQL_JOGO_POR_ID, (id,))
         tupla = cursor.fetchone()
-        cursor.close()
         return Jogo(tupla[1], tupla[2], tupla[3], id=tupla[0])
 
     def deletar(self, id):
         self.__db.connection.cursor().execute(SQL_DELETA_JOGO, (id, ))
         self.__db.connection.commit()
-        cursor.close()
 
 class UsuarioDao:
     def __init__(self, db):
         self.__db = db
+        self.nome = "Nick"
 
     def buscar_por_id(self, id):
         cursor = self.__db.connection.cursor()
         cursor.execute(SQL_USUARIO_POR_ID, (id,))
         dados = cursor.fetchone()
         usuario = traduz_usuario(dados) if dados else None
-        cursor.close()
         return usuario
     
     def listar(self):
@@ -61,12 +57,15 @@ class UsuarioDao:
         cursor.execute(SQL_BUSCA_USUARIOS)
         usuarios = traduz_user(cursor.fetchall())
         print(usuarios)
-        cursor.close()
         return usuarios
 
     def novo_usuario(self, usuario):
         cursor = self.__db.connection.cursor()
         cursor.execute(SQL_CRIA_USUARIO, (usuario.id, usuario.nome, usuario.senha))
+        print(self)
+        nome = "Marcos"
+        print(self.nome)
+        print(nome)
         #self.__db.connect.commit()     #MALDITO ERRO, JAMAIS TE ESQUECEREI!
         self.__db.connection.commit()
 def traduz_jogos(jogos):
