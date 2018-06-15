@@ -7,25 +7,8 @@ from time import time
 import os
 
 app = Flask(__name__)
-app.secret_key = 'alura'
-
-app.config['MYSQL_HOST'] = "127.0.0.1"
-app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWD'] = ""
-app.config['MYSQL_DB'] = "jogoteca"
-
-
-# app.config['MYSQL_HOST'] = "sql10.freemysqlhosting.net"
-# app.config['MYSQL_USER'] = "sql10242871"
-# app.config['MYSQL_PASSWD'] = "KmwPAffdFF"
-# app.config['MYSQL_DB'] = "sql10242871"
-
-app.config['MYSQL_PORT'] = 3306
-
-app.config['UPLOAD_PATH'] = os.path.dirname(os.path.abspath(__file__)) + '/uploads'
-
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-
+#Puxa a configuração de um Arquivo Python externo
+app.config.from_pyfile('config.py')
 
 db = MySQL(app)
 jogo_dao = JogoDao(db)
