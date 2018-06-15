@@ -1,15 +1,31 @@
-from flask import Flask, render_template, request, redirect, session, flash, url_for
+from flask import Flask, render_template, request, redirect, session, flash, url_for, send_from_directory
 from flask_mysqldb import MySQL
 from models import Jogo, Usuario
 from dao import JogoDao, UsuarioDao
+from time import time
+
+import os
 
 app = Flask(__name__)
 app.secret_key = 'alura'
+
 app.config['MYSQL_HOST'] = "127.0.0.1"
 app.config['MYSQL_USER'] = "root"
 app.config['MYSQL_PASSWD'] = ""
 app.config['MYSQL_DB'] = "jogoteca"
+
+
+# app.config['MYSQL_HOST'] = "sql10.freemysqlhosting.net"
+# app.config['MYSQL_USER'] = "sql10242871"
+# app.config['MYSQL_PASSWD'] = "KmwPAffdFF"
+# app.config['MYSQL_DB'] = "sql10242871"
+
 app.config['MYSQL_PORT'] = 3306
+
+app.config['UPLOAD_PATH'] = os.path.dirname(os.path.abspath(__file__)) + '/uploads'
+
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
 
 db = MySQL(app)
 jogo_dao = JogoDao(db)
@@ -44,7 +60,8 @@ def novo():
 def criar():
     vazio = False
     formularios_cria_jogo = ["nome", "categoria", "console"]
-
+    
+    
     for i in formularios_cria_jogo:
         formulario = request.form[i]
         if(not formulario):
@@ -55,7 +72,9 @@ def criar():
         new_game = Jogo(request.form["nome"], request.form["categoria"], request.form["console"])
         flash("Jogo {} salvo com sucesso".format(new_game.nome))
         error = False
-        jogo_dao.salvar(new_game)
+        jogo = jogo_dao.salvar(new_game)
+        arquivo = request.files["arquivo"]                                      #Pega arquivos do request
+        arquivo.save('{}/capa{}-{}.jpg'.format(app.config['UPLOAD_PATH'],jogo.id, time())) #Diz aonde o arquivo será salvo e o nome do arquivo
         return redirect(url_for('index'))
     else:
         error = True
@@ -129,8 +148,10 @@ def deletar():
 @app.route('/editar/<int:id>')
 def editar(id):
     jogo = jogo_dao.busca_por_id(id)
+    nome_imagem = recupera_imagem(id)
     return protege_rota(
-        render_template('editar.html', titulo='Editando Jogo', jogo = jogo),
+        render_template('editar.html', titulo='Editando Jogo',
+                         jogo = jogo, capa_jogo = nome_imagem),
         "login",
         "editar"
     )
@@ -139,6 +160,30 @@ def editar(id):
 def atualizar():
     jogo = Jogo(request.form['nome'],request.form['categoria'], request.form['console'], request.form['id'])
     jogo_dao.salvar(jogo)
+    deleta_arquivo(jogo.id)
+    request.files["arquivo"].save("{}/capa{}-{}.jpg".format(app.config["UPLOAD_PATH"], jogo.id, time()))
     return redirect(url_for('index'))
+
+#Pega o parametro chamado nome_arquivo via GET
+#  e aramazena em uma variavel de mesmo nome 
+@app.route('/uploads/<nome_arquivo>')
+#Passa o parametro recebido via GET 
+# como argumento para a função
+def imagem(nome_arquivo):
+    return send_from_directory("uploads", nome_arquivo)
+
+#Pega a imagem na pasta uploads
+def recupera_imagem(id):
+    #Pega todos os arquivos do diretorio
+    for nome_arquivo in os.listdir(app.config["UPLOAD_PATH"]):
+        #Procura pelo arquivo que contenha a string
+        if("capa{}".format(id) in nome_arquivo):
+            print(nome_arquivo)
+            return nome_arquivo
+
+def deleta_arquivo(id):
+    arquivo = recupera_imagem(id)
+    #remove o arquivo, o join concatena os paths
+    os.remove(os.path.join(app.config["UPLOAD_PATH"], arquivo))
 
 app.run(debug=True)

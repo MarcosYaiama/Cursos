@@ -1,6 +1,18 @@
 {% extends "template.html" %}
 {% block conteudo %}
-    <form action="{{ url_for('criar') }}" method="post">
+    <form action="{{ url_for('criar') }}" method="post" enctype="multipart/form-data">
+        <figure class="thumb col-md-4">
+          <!-- O primeiro parametro é o nome da função no caso é a imagem que 
+            retorna o resultado da send_from_directory que retorna um 
+            arquivo e o segundo nome do arquivo -->
+          <img class="img-responsive" src="{{ url_for("imagem", nome_arquivo = 'capa_padrao.jpg') }}">
+          <figcaption>
+            <label class="fileContainer">
+              Mudar Capa
+              <input type="file" name="arquivo" accept="jpg">
+            </label>
+          </figcaption>
+        </figure>
         <fieldset>
           <div class="form-group">
             <label for="nome">Nome</label>
@@ -14,10 +26,11 @@
             <label for="console">Console</label>
             <input type="text" id="console" name="console" class="form-control" required>
           </div>
-          <button type="submit" class="btn btn-success btn-salvar">Salvar</button>
-          <a href="{{ url_for("index") }}" class="btn btn-primary ">Voltar</a>
+          <button type="submit" class="btn btn-success btn-salvar botao">Salvar</button>
+          <a href="{{ url_for("index") }}" class="btn btn-primary botao">Voltar</a>
         </fieldset>
-    </form>
+
+      </form>
 
     
 {% endblock %}
