@@ -2,7 +2,7 @@ from flask import Flask
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-#Puxa a configuração de um Arquivo Python externo
+#Importa um arquivo de configuração
 app.config.from_pyfile('config.py')
 
 db = MySQL(app)
@@ -11,7 +11,7 @@ db = MySQL(app)
 #depois da criação do app
 from views import *
 
-#Só executa o código quando ele for executado
-#O app.run não é executado quando esse arquivo é puxado em um import
+#Garante que o app só rode quando o jogoteca.py for executado
+#Caso contrario o app.run não é executado
 if __name__ == '__main__':
     app.run(debug=True)
